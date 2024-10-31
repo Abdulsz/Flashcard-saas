@@ -12,6 +12,8 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
+  Grid,
+  Card,
 } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -71,13 +73,20 @@ export default function Generate(){
             }
 
             try {
-                const response = await fetch ('/api/generate',{
-                    method: 'POST',
-                    body: text,
-                })
+                const response = await fetch("/api/generate", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json", // Set the content type to application/json
+                  },
+                  body: JSON.stringify({ text: text }),
+                });
 
                 if (!response.ok) {
-                    throw new Error('Failed to generate flashcards')
+                  const errorText = await response.text();
+                  console.error("Server response:", errorText);
+                  throw new Error(
+                    `Failed to generate flashcards: Server responded with status ${response.status}`
+                  );
                 }
 
                 const data = await response.json()
@@ -85,11 +94,7 @@ export default function Generate(){
 
             }catch(error) {
                 console.error('Error generating flashcards:', error)
-                if (process.env.OPENAI_API_KEY){
-                  console.log(process.env.OPENAI_API_KEY);
-                }else{
-                  console.log("nothin")
-                }
+                
                 alert('An error occured while generating flashcards. Please try again.')
                 
             }

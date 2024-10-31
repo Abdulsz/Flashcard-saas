@@ -1,3 +1,4 @@
+'use client'
 import Image from "next/image";
 import { getStripe } from "@/utils/get-stripe";
 import { SignedOut, SignedIn, UserButton} from "@clerk/nextjs";
@@ -166,7 +167,12 @@ export default function Home() {
                 {" "}
                 Unlimited flashcards and storage, with priority support.
               </Typography>
-              <Button variant="contained" color="primary" sx={{ mt: 2 }}>
+              <Button
+                variant="contained"
+                color="primary"
+                sx={{ mt: 2 }}
+                
+              >
                 Choose Pro
               </Button>
             </Box>
